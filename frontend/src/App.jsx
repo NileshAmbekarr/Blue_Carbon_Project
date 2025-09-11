@@ -15,14 +15,14 @@ import AuditorDashboard from '@/pages/audits/AuditorDashboard';
 import ProjectDetails from '@/pages/projects/ProjectDetails';
 // ... other page imports
 
-// Temporary Imports 
-import BypassAuth from '@/components/DevTools/BypassAuth';
+// // Temporary Imports 
+// import BypassAuth from '@/components/DevTools/BypassAuth';
 
 function App() {
   return (
     <Web3Provider>
       <Routes>
-        <Route path="/login" element={<BypassAuth />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"
           element={
