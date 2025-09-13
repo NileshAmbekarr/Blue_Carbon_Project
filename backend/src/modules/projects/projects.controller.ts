@@ -136,4 +136,50 @@ export class ProjectsController {
   remove(@Param('id') id: string, @Request() req) {
     return this.projectsService.remove(id, req.user.id, req.user.role?.name);
   }
+
+  @Get(':id/plots')
+  @ApiOperation({ summary: 'Get plots for a project' })
+  @ApiResponse({ status: 200, description: 'Project plots retrieved successfully' })
+  @ApiResponse({ status: 404, description: 'Project not found' })
+  getProjectPlots(@Param('id') id: string, @Request() req) {
+    return this.projectsService.getProjectPlots(id, req.user.id, req.user.role?.name);
+  }
+
+  @Post(':id/plots')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.DEVELOPER)
+  @ApiOperation({ summary: 'Create a plot for a project (Admin/Developer only)' })
+  @ApiResponse({ status: 201, description: 'Plot created successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden - Insufficient permissions' })
+  createPlot(@Param('id') id: string, @Body() plotData: any, @Request() req) {
+    return this.projectsService.createPlot(id, plotData, req.user.id);
+  }
+
+  @Patch(':projectId/plots/:plotId')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.DEVELOPER)
+  @ApiOperation({ summary: 'Update a plot in a project (Admin/Developer only)' })
+  @ApiResponse({ status: 200, description: 'Plot updated successfully' })
+  @ApiResponse({ status: 404, description: 'Plot not found' })
+  updatePlot(@Param('projectId') projectId: string, @Param('plotId') plotId: string, @Body() plotData: any, @Request() req) {
+    return this.projectsService.updatePlot(projectId, plotId, plotData, req.user.id);
+  }
+
+  @Delete(':projectId/plots/:plotId')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.DEVELOPER)
+  @ApiOperation({ summary: 'Delete a plot from a project (Admin/Developer only)' })
+  @ApiResponse({ status: 200, description: 'Plot deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Plot not found' })
+  deletePlot(@Param('projectId') projectId: string, @Param('plotId') plotId: string, @Request() req) {
+    return this.projectsService.deletePlot(projectId, plotId, req.user.id);
+  }
+
+  @Get(':id/monitoring')
+  @ApiOperation({ summary: 'Get monitoring events for a project' })
+  @ApiResponse({ status: 200, description: 'Monitoring events retrieved successfully' })
+  @ApiResponse({ status: 404, description: 'Project not found' })
+  getMonitoringEvents(@Param('id') id: string, @Request() req) {
+    return this.projectsService.getMonitoringEvents(id, req.user.id, req.user.role?.name);
+  }
 }

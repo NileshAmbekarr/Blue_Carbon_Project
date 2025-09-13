@@ -23,7 +23,7 @@
     "migration:generate": "npm run typeorm -- migration:generate -d src/config/database.config.ts",
     "migration:run": "npm run typeorm -- migration:run -d src/config/database.config.ts",
     "migration:revert": "npm run typeorm -- migration:revert -d src/config/database.config.ts",
-    "seed": "nest start --entryFile seed",
+    "seed": "ts-node seed.ts",
     "seed:dev": "NODE_ENV=development npm run seed",
     "seed:prod": "NODE_ENV=production npm run seed"
   },

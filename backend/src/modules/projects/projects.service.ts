@@ -182,4 +182,30 @@ export class ProjectsService {
 
     await this.projectsRepository.remove(project);
   }
+
+  // Placeholder methods for project plots and monitoring
+  async getProjectPlots(id: string, userId?: string, userRole?: UserRole): Promise<any[]> {
+    // TODO: Implement proper plot retrieval logic
+    return [];
+  }
+
+  async createPlot(projectId: string, plotData: any, userId: string): Promise<any> {
+    // TODO: Implement plot creation logic
+    return { message: 'Plot creation not yet implemented' };
+  }
+
+  async updatePlot(projectId: string, plotId: string, plotData: any, userId: string): Promise<any> {
+    // TODO: Implement plot update logic
+    return { message: 'Plot update not yet implemented' };
+  }
+
+  async deletePlot(projectId: string, plotId: string, userId: string): Promise<any> {
+    // TODO: Implement plot deletion logic
+    return { message: 'Plot deletion not yet implemented' };
+  }
+
+  async getMonitoringEvents(id: string, userId?: string, userRole?: UserRole): Promise<any[]> {
+    // TODO: Implement proper monitoring events retrieval logic
+    return [];
+  }
 }

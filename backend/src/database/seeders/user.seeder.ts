@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { User } from '@/entities/user.entity';
-import { Organization } from '@/entities/organization.entity';
-import { UserRole, OrganizationType } from '@/common/enums/user-role.enum';
+import { User } from '../../entities/user.entity';
+import { Organization } from '../../entities/organization.entity';
+import { UserRole, OrganizationType } from '../../common/enums/user-role.enum';
 
 @Injectable()
 export class UserSeeder {

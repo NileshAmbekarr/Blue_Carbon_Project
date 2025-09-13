@@ -4,22 +4,22 @@ import apiClient from './client';
 export const projectsAPI = {
   getProjects: async (filters = {}) => {
     const params = new URLSearchParams(filters);
-    const response = await apiClient.get(`/api/projects?${params}`);
+    const response = await apiClient.get(`/projects?${params}`);
     return response.data;
   },
   
   createProject: async (projectData) => {
-    const response = await apiClient.post('/api/projects', projectData);
+    const response = await apiClient.post('/projects', projectData);
     return response.data;
   },
 
   getProject: async (id) => {
-    const response = await apiClient.get(`/api/projects/${id}`);
+    const response = await apiClient.get(`/projects/${id}`);
     return response.data;
   },
 
   updateProject: async (id, projectData) => {
-    const response = await apiClient.put(`/api/projects/${id}`, projectData);
+    const response = await apiClient.put(`/projects/${id}`, projectData);
     return response.data;
   },
 
@@ -48,12 +48,12 @@ export const projectsAPI = {
   },
 
   getMonitoringEvents: async (projectId) => {
-    const response = await apiClient.get(`/api/projects/${projectId}/monitoring`);
+    const response = await apiClient.get(`/projects/${projectId}/monitoring`);
     return response.data;
   },
 
   createMonitoringEvent: async (eventData) => {
-    const response = await apiClient.post('/api/monitoring', eventData);
+    const response = await apiClient.post('/monitoring', eventData);
     return response.data;
   },
 };

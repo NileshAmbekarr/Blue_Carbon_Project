@@ -14,6 +14,7 @@ import { CreditsModule } from './modules/credits/credits.module';
 import { FilesModule } from './modules/files/files.module';
 import { MrvModule } from './modules/mrv/mrv.module';
 import { BlockchainModule } from './modules/blockchain/blockchain.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { SeederModule } from './database/seeders/seeder.module';
 import { SeedCommand } from './database/seeders/seed.command';
 
@@ -49,6 +50,7 @@ import { SeedCommand } from './database/seeders/seed.command';
     FilesModule,
     MrvModule,
     BlockchainModule,
+    MonitoringModule,
     SeederModule,
   ],
   controllers: [AppController],
