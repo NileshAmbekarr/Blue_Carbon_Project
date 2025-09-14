@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import Web3Provider from './providers/Web3Provider';
@@ -44,12 +44,12 @@ function App() {
           <Route path="credits" element={<CreditsDashboard />} />
 
           {/* Admin Only Routes */}
-          <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+          <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="admin" element={<AdminDashboard />} />
           </Route>
 
           {/* Auditor Only Routes */}
-          <Route element={<ProtectedRoute allowedRoles={['Auditor']} />}>
+          <Route element={<ProtectedRoute allowedRoles={['auditor']} />}>
             <Route path="audits" element={<AuditorDashboard />} />
             <Route path="audits/mrv/:id" element={<MRVReview />} />
           </Route>
@@ -62,6 +62,9 @@ function App() {
         <Route path="/public/contact" element={<div>Contact Us - Coming Soon</div>} />
         <Route path="/public/privacy" element={<div>Privacy Policy - Coming Soon</div>} />
         <Route path="/public/terms" element={<div>Terms of Service - Coming Soon</div>} />
+
+        {/* 404 Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Web3Provider>
   );

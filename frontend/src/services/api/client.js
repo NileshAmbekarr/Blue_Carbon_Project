@@ -1,6 +1,6 @@
 // services/api/client.js
 import axios from 'axios';
-import { useAuthStore } from '../../stores/authStore';
+import { useAuthStore } from '../../store/slices/authSlice';
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

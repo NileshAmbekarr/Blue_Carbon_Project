@@ -1,6 +1,6 @@
 // src/components/DevTools/BypassAuth.jsx
 import React from 'react';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuthStore } from '@/store/slices/authSlice';
 import { mockUsers } from '@/mocks/mockData';
 
 const BypassAuth = () => {

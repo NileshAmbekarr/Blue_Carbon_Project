@@ -17,13 +17,22 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   
   const navigate = useNavigate();
-  const { isAuthenticated, setAuth } = useAuth();
+  const { isAuthenticated, isHydrated, setAuth } = useAuth();
   
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
 
+  // Show loading while hydrating
+  if (!isHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
   // Redirect if already authenticated
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/app/dashboard" replace />;
   }
 
   const onSubmit = async (data: LoginForm) => {
@@ -32,8 +41,9 @@ const LoginPage = () => {
     
     try {
       const response = await authAPI.login(data);
-      setAuth(response.token, response.user);
-      navigate('/dashboard');
+      // API returns access_token, but our store expects token
+      setAuth(response.access_token, response.user);
+      // Don't manually navigate - let the Navigate component handle it
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {

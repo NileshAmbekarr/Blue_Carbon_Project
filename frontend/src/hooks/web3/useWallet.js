@@ -1,7 +1,7 @@
 // hooks/web3/useWallet.js
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useConnect, useDisconnect, useBalance, useChainId, useSwitchChain } from 'wagmi';
-import { useAuthStore } from '../../stores/authStore';
+import { useAuthStore } from '../../store/slices/authSlice';
 
 export const useWallet = () => {
   const { address, isConnected, isConnecting } = useAccount();
