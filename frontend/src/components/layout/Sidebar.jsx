@@ -17,23 +17,24 @@ import { useAuth } from '@/hooks/auth/useAuth';
 import { clsx } from 'clsx';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, roles: ['Admin', 'Auditor', 'Developer'] },
-  { name: 'Projects', href: '/projects', icon: FolderIcon, roles: ['Admin', 'Auditor', 'Developer'] },
-  { name: 'Audits', href: '/audits', icon: DocumentCheckIcon, roles: ['Admin', 'Auditor'] },
-  { name: 'Credits', href: '/credits', icon: CurrencyDollarIcon, roles: ['Admin', 'Auditor', 'Developer'] },
-  { name: 'Organizations', href: '/organizations', icon: BuildingOfficeIcon, roles: ['Admin'] },
-  { name: 'Analytics', href: '/analytics', icon: ChartBarIcon, roles: ['Admin'] },
-  { name: 'Admin Settings', href: '/admin', icon: CogIcon, roles: ['Admin'] },
-  { name: 'Public Explorer', href: '/explorer', icon: GlobeAltIcon, roles: ['Admin', 'Auditor', 'Developer', 'Public'] },
+  { name: 'Dashboard', href: '/app/dashboard', icon: HomeIcon, roles: ['Admin', 'Auditor', 'Developer'] },
+  { name: 'Projects', href: '/app/projects', icon: FolderIcon, roles: ['Admin', 'Auditor', 'Developer'] },
+  { name: 'Audits', href: '/app/audits', icon: DocumentCheckIcon, roles: ['Admin', 'Auditor'] },
+  { name: 'Credits', href: '/app/credits', icon: CurrencyDollarIcon, roles: ['Admin', 'Auditor', 'Developer'] },
+  { name: 'Organizations', href: '/app/organizations', icon: BuildingOfficeIcon, roles: ['Admin'] },
+  { name: 'Analytics', href: '/app/analytics', icon: ChartBarIcon, roles: ['Admin'] },
+  { name: 'Admin Settings', href: '/app/admin', icon: CogIcon, roles: ['Admin'] },
+  { name: 'Public Explorer', href: '/public/explorer', icon: GlobeAltIcon, roles: ['Admin', 'Auditor', 'Developer', 'Public'] },
 ];
 
 export const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const filteredNavigation = navigation.filter(item => 
-    item.roles.some(role => user?.roles?.includes(role))
-  );
+  const filteredNavigation = navigation.filter(item => {
+    if (!user?.role) return false;
+    return item.roles.some(role => role.toLowerCase() === user.role.toLowerCase());
+  });
 
   const SidebarContent = () => (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
@@ -80,7 +81,7 @@ export const Sidebar = ({ open, setOpen }) => {
               <div className="flex flex-col">
                 <span className="text-white">{user?.name || user?.email}</span>
                 <span className="text-xs text-gray-400">
-                  {user?.roles?.join(', ') || 'User'}
+                  {user?.role || 'User'}
                 </span>
               </div>
             </div>

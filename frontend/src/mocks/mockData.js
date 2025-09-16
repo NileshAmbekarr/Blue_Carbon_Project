@@ -4,21 +4,21 @@ export const mockUsers = {
     id: 'admin-1',
     name: 'Admin User',
     email: 'admin@bluecarbon.com',
-    roles: ['Admin'],
+    role: 'Admin',
     organization: 'NCCR'
   },
   auditor: {
     id: 'auditor-1',
     name: 'Auditor User',
     email: 'auditor@bluecarbon.com',
-    roles: ['Auditor'],
+    role: 'Auditor',
     organization: 'Audit Firm'
   },
   developer: {
     id: 'developer-1',
     name: 'Developer User',
     email: 'developer@bluecarbon.com',
-    roles: ['Developer'],
+    role: 'Developer',
     organization: 'Green NGO'
   }
 };
