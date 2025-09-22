@@ -1,0 +1,202 @@
+type Project @entity {
+  id: Bytes! # projectId
+  owner: Bytes! # address
+  projectIpfsHash: String!
+  createdAt: BigInt!
+  active: Boolean!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  mrvRecords: [MRVRecord!]! @derivedFrom(field: "project")
+  creditBatches: [CreditBatch!]! @derivedFrom(field: "project")
+}
+
+type MRVRecord @entity {
+  id: Bytes! # mrvId
+  project: Project!
+  projectId: Bytes!
+  ipfsHash: String!
+  tCO2e: BigInt!
+  auditor: Bytes!
+  canonicalHash: Bytes
+  approved: Boolean!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  creditBatches: [CreditBatch!]! @derivedFrom(field: "mrvRecord")
+}
+
+type CreditBatch @entity {
+  id: BigInt! # tokenId
+  project: Project!
+  projectId: Bytes!
+  mrvRecord: MRVRecord!
+  mrvId: Bytes!
+  totalIssued: BigInt!
+  totalRetired: BigInt!
+  vintage: BigInt!
+  metadataIpfsHash: String!
+  issuer: Bytes!
+  issuedAt: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  retirements: [CreditRetirement!]! @derivedFrom(field: "creditBatch")
+  transfers: [CreditTransfer!]! @derivedFrom(field: "creditBatch")
+  balances: [CreditBalance!]! @derivedFrom(field: "creditBatch")
+}
+
+type CreditRetirement @entity {
+  id: String! # tokenId-txHash-logIndex
+  creditBatch: CreditBatch!
+  tokenId: BigInt!
+  amount: BigInt!
+  retiredBy: Bytes!
+  beneficiary: Bytes!
+  reason: String!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type CreditTransfer @entity {
+  id: String! # txHash-logIndex
+  creditBatch: CreditBatch!
+  tokenId: BigInt!
+  from: Bytes!
+  to: Bytes!
+  amount: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type CreditBalance @entity {
+  id: String! # address-tokenId
+  creditBatch: CreditBatch!
+  tokenId: BigInt!
+  owner: Bytes!
+  balance: BigInt!
+  lastUpdated: BigInt!
+}
+
+type Auditor @entity {
+  id: Bytes! # address
+  active: Boolean!
+  approvalCount: BigInt!
+  registeredAt: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  mrvRecords: [MRVRecord!]! @derivedFrom(field: "auditor")
+}
+
+# Production-only entities
+type Attestation @entity {
+  id: Bytes! # mrvId
+  mrvId: Bytes!
+  projectId: Bytes!
+  auditor: Bytes!
+  attestor: Bytes!
+  tCO2e: BigInt!
+  attestationType: Int! # 0: DIRECT_SIGNATURE, 1: ORACLE_ATTESTATION, 2: MULTI_SIG_ATTESTATION
+  timestamp: BigInt!
+  valid: Boolean!
+  revoked: Boolean!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Oracle @entity {
+  id: Bytes! # address
+  active: Boolean!
+  attestationCount: BigInt!
+  registeredAt: BigInt!
+  endpoint: String!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  attestations: [Attestation!]! @derivedFrom(field: "attestor")
+}
+
+type BufferReserve @entity {
+  id: BigInt! # tokenId
+  tokenId: BigInt!
+  projectId: Bytes!
+  totalReserved: BigInt!
+  totalUsed: BigInt!
+  reservePercentage: BigInt!
+  active: Boolean!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  
+  # Relations
+  reversalEvents: [ReversalEvent!]! @derivedFrom(field: "bufferReserve")
+}
+
+type ReversalEvent @entity {
+  id: Bytes! # reversalId
+  bufferReserve: BufferReserve!
+  reversalId: Bytes!
+  projectId: Bytes!
+  tokenId: BigInt!
+  creditsAffected: BigInt!
+  bufferUsed: BigInt!
+  evidenceIpfsHash: String!
+  executor: Bytes!
+  timestamp: BigInt!
+  executed: Boolean!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+# Global statistics
+type GlobalStats @entity {
+  id: String! # "global"
+  totalProjects: BigInt!
+  totalMRVRecords: BigInt!
+  totalCreditsIssued: BigInt!
+  totalCreditsRetired: BigInt!
+  totalAuditors: BigInt!
+  totalOracles: BigInt!
+  totalBufferReserved: BigInt!
+  totalBufferUsed: BigInt!
+  lastUpdated: BigInt!
+}
+
+# Daily/Monthly aggregations for analytics
+type DailyStats @entity {
+  id: String! # YYYY-MM-DD
+  date: String!
+  projectsRegistered: BigInt!
+  mrvRecordsAnchored: BigInt!
+  creditsIssued: BigInt!
+  creditsRetired: BigInt!
+  timestamp: BigInt!
+}
+
+type MonthlyStats @entity {
+  id: String! # YYYY-MM
+  month: String!
+  projectsRegistered: BigInt!
+  mrvRecordsAnchored: BigInt!
+  creditsIssued: BigInt!
+  creditsRetired: BigInt!
+  timestamp: BigInt!
+}

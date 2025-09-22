@@ -1,0 +1,173 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  # MVP Registry Contract
+  - kind: ethereum
+    name: RegistryContract
+    network: mumbai
+    source:
+      address: "0x0000000000000000000000000000000000000000" # Replace with actual deployed address
+      abi: RegistryContract
+      startBlock: 0 # Replace with deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Project
+        - MRVRecord
+        - Auditor
+        - GlobalStats
+        - DailyStats
+        - MonthlyStats
+      abis:
+        - name: RegistryContract
+          file: ./abis/RegistryContract.json
+      eventHandlers:
+        - event: ProjectRegistered(indexed bytes32,indexed address,string,uint256)
+          handler: handleProjectRegistered
+        - event: MRVAnchored(indexed bytes32,indexed bytes32,string,uint256,indexed address,uint256)
+          handler: handleMRVAnchored
+        - event: MRVUpdated(indexed bytes32,string,uint256)
+          handler: handleMRVUpdated
+      file: ./src/registry-mapping.ts
+
+  # Carbon Credit Token Contract
+  - kind: ethereum
+    name: CarbonCreditToken
+    network: mumbai
+    source:
+      address: "0x0000000000000000000000000000000000000000" # Replace with actual deployed address
+      abi: CarbonCreditToken
+      startBlock: 0 # Replace with deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CreditBatch
+        - CreditRetirement
+        - CreditTransfer
+        - CreditBalance
+        - GlobalStats
+        - DailyStats
+        - MonthlyStats
+      abis:
+        - name: CarbonCreditToken
+          file: ./abis/CarbonCreditToken.json
+      eventHandlers:
+        - event: CreditsMinted(indexed uint256,indexed bytes32,indexed bytes32,uint256,address,string,uint256)
+          handler: handleCreditsMinted
+        - event: CreditsRetired(indexed uint256,uint256,indexed address,indexed address,string)
+          handler: handleCreditsRetired
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+        - event: BatchMetadataUpdated(indexed uint256,string)
+          handler: handleBatchMetadataUpdated
+      file: ./src/token-mapping.ts
+
+  # Production Project Registry Contract
+  - kind: ethereum
+    name: ProjectRegistry
+    network: mumbai
+    source:
+      address: "0x0000000000000000000000000000000000000000" # Replace with actual deployed address
+      abi: ProjectRegistry
+      startBlock: 0 # Replace with deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Project
+        - MRVRecord
+        - Auditor
+        - GlobalStats
+        - DailyStats
+        - MonthlyStats
+      abis:
+        - name: ProjectRegistry
+          file: ./abis/ProjectRegistry.json
+      eventHandlers:
+        - event: ProjectRegistered(indexed bytes32,indexed address,string,uint256)
+          handler: handleProjectRegistered
+        - event: ProjectStatusChanged(indexed bytes32,bool,uint256)
+          handler: handleProjectStatusChanged
+        - event: MRVAnchored(indexed bytes32,indexed bytes32,indexed address,string,uint256,bytes32,uint256)
+          handler: handleMRVAnchored
+        - event: MRVApproved(indexed bytes32,indexed address,uint256)
+          handler: handleMRVApproved
+        - event: AuditorRegistered(indexed address,uint256)
+          handler: handleAuditorRegistered
+        - event: AuditorStatusChanged(indexed address,bool,uint256)
+          handler: handleAuditorStatusChanged
+      file: ./src/project-registry-mapping.ts
+
+  # Verification Controller Contract
+  - kind: ethereum
+    name: VerificationController
+    network: mumbai
+    source:
+      address: "0x0000000000000000000000000000000000000000" # Replace with actual deployed address
+      abi: VerificationController
+      startBlock: 0 # Replace with deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Attestation
+        - Oracle
+        - GlobalStats
+      abis:
+        - name: VerificationController
+          file: ./abis/VerificationController.json
+      eventHandlers:
+        - event: AttestationCreated(indexed bytes32,indexed bytes32,indexed address,address,uint8,uint256,uint256)
+          handler: handleAttestationCreated
+        - event: AttestationRevoked(indexed bytes32,indexed address,string,uint256)
+          handler: handleAttestationRevoked
+        - event: BatchAttestationCreated(bytes32[],indexed address,uint256,uint256)
+          handler: handleBatchAttestationCreated
+        - event: OracleRegistered(indexed address,string,uint256)
+          handler: handleOracleRegistered
+        - event: OracleStatusChanged(indexed address,bool,uint256)
+          handler: handleOracleStatusChanged
+      file: ./src/verification-mapping.ts
+
+  # Buffer Pool Contract
+  - kind: ethereum
+    name: BufferPool
+    network: mumbai
+    source:
+      address: "0x0000000000000000000000000000000000000000" # Replace with actual deployed address
+      abi: BufferPool
+      startBlock: 0 # Replace with deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BufferReserve
+        - ReversalEvent
+        - GlobalStats
+      abis:
+        - name: BufferPool
+          file: ./abis/BufferPool.json
+      eventHandlers:
+        - event: BufferReserved(indexed uint256,indexed bytes32,uint256,uint256,uint256)
+          handler: handleBufferReserved
+        - event: BufferPercentageUpdated(indexed uint256,uint256,uint256,uint256)
+          handler: handleBufferPercentageUpdated
+        - event: ReversalExecuted(indexed bytes32,indexed bytes32,indexed uint256,uint256,uint256,string,uint256)
+          handler: handleReversalExecuted
+        - event: BufferWithdrawn(indexed uint256,indexed address,uint256,string,uint256)
+          handler: handleBufferWithdrawn
+        - event: DefaultBufferPercentageUpdated(uint256,uint256,uint256)
+          handler: handleDefaultBufferPercentageUpdated
+      file: ./src/buffer-mapping.ts
+
+templates: []

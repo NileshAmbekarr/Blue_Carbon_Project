@@ -1,0 +1,61 @@
+{
+  "name": "blue-carbon-blockchain-registry",
+  "version": "1.0.0",
+  "description": "Blockchain registry for Blue Carbon Project - MVP and Production contracts",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:mumbai": "hardhat run scripts/deploy-mvp.js --network mumbai",
+    "deploy:polygon": "hardhat run scripts/deploy-production.js --network polygon",
+    "verify:mumbai": "hardhat run scripts/verify.js --network mumbai",
+    "node": "hardhat node",
+    "console": "hardhat console",
+    "flatten": "hardhat flatten",
+    "size": "hardhat size-contracts",
+    "coverage": "hardhat coverage",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "prettier": "prettier --write 'contracts/**/*.sol'",
+    "clean": "hardhat clean"
+  },
+  "keywords": [
+    "blockchain",
+    "carbon-credits",
+    "blue-carbon",
+    "ethereum",
+    "polygon",
+    "erc1155",
+    "mrv",
+    "registry"
+  ],
+  "author": "Blue Carbon Project Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.2",
+    "@nomicfoundation/hardhat-verify": "^1.1.1",
+    "@typechain/ethers-v6": "^0.4.3",
+    "@typechain/hardhat": "^8.0.3",
+    "@types/chai": "^4.3.6",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.8",
+    "ethers": "^6.7.1",
+    "hardhat": "^2.17.2",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "prettier": "^3.0.3",
+    "prettier-plugin-solidity": "^1.1.3",
+    "solhint": "^4.0.0",
+    "solidity-coverage": "^0.8.4",
+    "typechain": "^8.3.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "dotenv": "^16.3.1"
+  }
+}
